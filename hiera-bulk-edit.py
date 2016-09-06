@@ -114,7 +114,6 @@ for f in yaml_files(yaml_path):
         else:
             print "Updated for %s" % f
             write_file(f, hiera)
-            reindent_block_sequences(f)
 
     except:
         e = sys.exc_info()[0]
