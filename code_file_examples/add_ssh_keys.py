@@ -12,11 +12,11 @@ team_keys = {
     'joe_bloggs@example.com': 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDqNKFOy4kYtMEPLEqAPR5crpLNiIkxxtdA4+MGMJbocQZNmBulWfbgeWbYnqE/IsjTUY8TWDjc34vHVxEuOb1vKP4Qn56vTWGmxyQXRDZbscO/UwQ8NHquFggDKK+xWg9v/VVCp1gPrz95DO7qjihZK3uqOZCfssdrMFI8dE/swZeaXBTmsPf2mj9FaI2SOuahdNd1wCMs64Fqhs7rwsk5O8I4L83Or8ttFXjmTELhjn3bs6odZYmtb0jiOlohJrQ/+IsOcJ4qwHtC96fQhDkH+YIC6FoaThn5ZFBlOkRoIpe49DFv/kbGQNufLrIZSGwq9dnnphfclWbXmy0G1IbF',
 }
 
-if 'profile::base' in hiera and 'ec2-user' in hiera['profile::base'] and 'ssh_keys' in hiera['profile::base']['ec2-user']:
+if 'profile::base::users' in hiera and 'ec2-user' in hiera['profile::base::users'] and 'ssh_keys' in hiera['profile::base::users']['ec2-user']:
     try:
         for email, key in team_keys.items():
-            if email not in hiera['profile::base']['ec2-user']['ssh_keys']:
-                hiera['profile::base']['ec2-user']['ssh_keys'][email] = {
+            if email not in hiera['profile::base::users']['ec2-user']['ssh_keys']:
+                hiera['profile::base::users']['ec2-user']['ssh_keys'][email] = {
                     'type': SingleQuotedScalarString('ssh-rsa'),
                     'key': SingleQuotedScalarString(key),
                 }
