@@ -102,10 +102,6 @@ The Hiera YAML data is stored in a Python Dictionary called `hiera`.
 
 The file name of the YAML file being edited is stored in `f`.
 
-### code_file
-
-The file name of the code file being executed is stored in `code_file`.
-
 ## Known issues
 
 The Ruamel library does not preserve all indentation styles but normalises the input file.  Inconsistencies in the human-edited indentation would be reset by the Bulk Edit script.  Likewise, whitespaces are not always preserved.
