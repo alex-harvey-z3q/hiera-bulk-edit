@@ -57,13 +57,12 @@ try:
 
 except:
     # We would get to here if, for example, the Hiera file does not contain the
-    # key hiera['foo']['bar'].
+    # key hiera['foo'].
     e = sys.exc_info()[0]
 
     # The following variables are also available from the calling script's scope:
     #   'f' is the filename of the file being edited.
-    #   'code_file' is the filename of this code file.
-    print "Got %s when executing %s for %s" % (e, code_file, f)
+    print "Got %s when updating %s" % (e, f)
 ```
 
 ### Adding a key with formatting
