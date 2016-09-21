@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 import ruamel.yaml
-import sys, os, re, glob
-import subprocess
-from subprocess import call
+import sys, os, re, glob2
 import braceexpand
 from braceexpand import braceexpand
+from compiler.ast import flatten
 
 def usage():
     print 'Hiera Bulk Edit.  Programmatically update human-edited Hiera YAML files.'
@@ -41,33 +40,21 @@ except:
 
     # The following variables are also available from the calling script's scope:
     #   'f' is the filename of the file being edited.
-    print "Got %s when executing %s for %s" % (e, f)
+    print 'Got %s when executing %s for %s' % (e, f)
 '''
     exit(1)
 
 def check_paths(paths):
     for p in paths:
         for _p in list(braceexpand(p)):
-            if glob.glob(_p) == []:
+            if glob2.glob(_p) == []:
                 if not os.path.exists(_p):
-                    print "%s not found" % _p
+                    print '%s not found' % _p
                     usage()
 
-def flatten(x):
-    res = []
-    for el in x:
-        if isinstance(el, list):
-            res.extend(flatten(el))
-        else:
-            res.append(el)
-    return res
-
 def yaml_files(paths):
-    expanded = [glob.glob(p) for p in list(braceexpand(paths))]
-    cmd = flatten(['find', expanded, '-name', '*.yaml'])
-    lines = subprocess.check_output(cmd).split("\n")
-    del lines[-1]
-    return lines
+    expanded = flatten([glob2.glob(p+'/**/*.yaml') for p in list(braceexpand(paths))])
+    return expanded
 
 def code_file_data(f):
     with open(f, 'r') as _f:
@@ -102,19 +89,19 @@ check_paths([code_file, yaml_path])
 code_file_data = code_file_data(code_file)
 
 for f in yaml_files(yaml_path):
-    hiera = read_file(f)
+    hiera  = read_file(f)
     _hiera = read_file(f)
 
     # execute the arbitrary python code in code_file.
     try:
         exec(code_file_data)
         if hiera == _hiera:
-            print "No changes to make in %s" % f
+            print 'No changes to make in %s' % f
         else:
-            print "Updated for %s" % f
+            print 'Updated for %s' % f
             write_file(f, hiera)
 
     except:
         e = sys.exc_info()[0]
-        print "Got %s when executing %s for %s" % (e, code_file, f)
+        print 'Got %s when executing %s for %s' % (e, code_file, f)
 
