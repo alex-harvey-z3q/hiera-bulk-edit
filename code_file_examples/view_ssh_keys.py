@@ -7,7 +7,7 @@ if 'profile::base::users' in hiera and 'ec2-user' in hiera['profile::base::users
         print "In %s:" % f
         puts(colored.green("hiera['profile::base::users']['ec2-user']:"))
         with indent(4):
-            puts(colored.green(ruamel.yaml.round_trip_dump(hiera['']['ec2-user'])))
+            puts(colored.green(ruamel.yaml.round_trip_dump(hiera['profile::base::users']['ec2-user'])))
 
     except:
         e = sys.exc_info()[0]
