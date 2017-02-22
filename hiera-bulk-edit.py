@@ -102,6 +102,5 @@ for f in yaml_files(yaml_path):
             write_file(f, hiera)
 
     except:
-        e = sys.exc_info()[0]
-        print 'Got %s when executing %s for %s' % (e, code_file, f)
+        print 'Got %s when executing %s for %s' % (sys.exc_info(), code_file, f)
 
