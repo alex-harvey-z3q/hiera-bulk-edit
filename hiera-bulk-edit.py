@@ -62,12 +62,25 @@ def code_file_data(f):
     return code_file_data
 
 def read_file(f):
+    if ruamel.yaml.version_info >= (0, 15, 30):
+        yaml = ruamel.yaml.YAML()
+        yaml.preserver_quotes = True
+        with open(f, 'r') as _f:
+            return yaml.load(_f)
     with open(f, 'r') as _f:
         return ruamel.yaml.round_trip_load(
-            _f.read(),
+            _f,  # for large files it is somewhat better not to read everything in memory
             preserve_quotes=True)
 
 def write_file(f, data):
+    if ruamel.yaml.version_info >= (0, 15, 30):
+        yaml = ruamel.yaml.YAML()
+        yaml.explicit_start = True
+        yaml.width = 1024
+        yaml.indent(mapping=2, sequence=4, offset=2)
+        with open(f, 'w') as _f:
+            yaml.dump(data, stream=_f)
+        return
     with open(f, 'w') as _f:
         ruamel.yaml.dump(
             data,
