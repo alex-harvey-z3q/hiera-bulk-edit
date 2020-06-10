@@ -108,6 +108,9 @@ The Ruamel library does not preserve all indentation styles but normalises the i
 
 The Ruamel project is still in beta and other bugs may come to light.  Proceed cautiously and check all diffs before merging changes.
 
+## Python 3 
+A script called hiera-bulk-edit-python3.py was added to be used in pure Python3 systems. Tested on Fedora 32 and Centos 8.1.
+
 ## Acknowledgements
 
 All credit to Anthon van der Neut for Ruamel.yaml, and in particular for his help on Stack Overflow and his quick response to bug reports.
